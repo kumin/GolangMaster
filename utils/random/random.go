@@ -8,7 +8,7 @@ import (
 type RandInRFn func(limit int64) int64
 
 func NewLimitRandom() RandInRFn {
-	return func(limit int64) {
+	return func(limit int64) int64 {
 		return rand.Int63n(limit)
 	}
 }

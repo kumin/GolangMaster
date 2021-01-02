@@ -24,8 +24,8 @@ import (
 	"log"
 	"net"
 
+	pb "github.com/my-packages/gogrpc/helloworld"
 	"google.golang.org/grpc"
-	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
 const (
@@ -52,7 +52,6 @@ func (s *server) SayGoodBye(ctx context.Context, in *pb.GoodByeRequest) (*pb.Goo
 	log.Printf("Received: %v", in.GetName())
 	return &pb.GoodByeReply{Message: "Bye " + in.GetName()}, nil
 }
-
 
 func main() {
 	lis, err := net.Listen("tcp", port)

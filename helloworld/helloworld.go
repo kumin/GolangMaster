@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"golang-modules/mypackage"
+	"github.com/my-packages/helloworld/mypackage"
 )
 
 func main() {
 	fmt.Println("I am a master Golang")
-	fmt.Println(mypackage.Add(1,2))
+	fmt.Println(mypackage.Add(1, 2))
 }
