@@ -1,0 +1,53 @@
+[
+  {
+    "field_name": "platform_name",
+    "type": 1,
+    "display_name": "Platform Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Equal"
+      },
+      {
+        "type": 2,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Greate Than"
+      },
+      {
+        "type": 3,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Greate Than Or Equal"
+      },
+      {
+        "type": 4,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Less Than"
+      },
+      {
+        "type": 5,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Less Than Or Eual"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  }
+]
