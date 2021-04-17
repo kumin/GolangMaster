@@ -1,0 +1,355 @@
+[
+  {
+    "field_name": "page_name",
+    "type": 1,
+    "display_name": "Page Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ],
+    "description": "name of current page/screen"
+  },
+  {
+    "field_name": "page_container_code",
+    "type": 1,
+    "display_name": "Page Container Code",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ],
+    "description": "a code name for define a block/widget in page"
+  },
+  {
+    "field_name": "traffic_source_channel",
+    "type": 1,
+    "display_name": "Traffic Source Channel",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "geo_city_name",
+    "type": 1,
+    "display_name": "Geo City Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "geo_country_name",
+    "type": 1,
+    "display_name": "Geo Country Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "geo_region_name",
+    "type": 1,
+    "display_name": "Geo Region Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "geo_ip",
+    "type": 1,
+    "display_name": "Geo IP",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "device_type",
+    "type": 1,
+    "display_name": "Device Type",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "network_carrier",
+    "type": 1,
+    "display_name": "Network Carrier",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "os_name",
+    "type": 1,
+    "display_name": "OS Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "os_version",
+    "type": 1,
+    "display_name": "OS Version",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "browser_name",
+    "type": 1,
+    "display_name": "Browser Name",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  },
+  {
+    "field_name": "app_version",
+    "type": 6,
+    "display_name": "App Version",
+    "can_filter": true,
+    "can_sort": false,
+    "operators": [
+      {
+        "type": 1,
+        "can_multiple": false,
+        "can_search": true,
+        "display_name": "Equal"
+      },
+      {
+        "type": 6,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Like"
+      },
+      {
+        "type": 7,
+        "can_multiple": false,
+        "can_search": false,
+        "display_name": "Regex"
+      }
+    ]
+  }
+]

@@ -5,36 +5,29 @@
     "display_name": "Platform Name",
     "can_filter": true,
     "can_sort": false,
+    "select_only": true,
     "operators": [
       {
         "type": 1,
         "can_multiple": false,
         "can_search": false,
         "display_name": "Equal"
-      },
+      }
+    ]
+  },
+  {
+    "field_name": "platform_version",
+    "type": 1,
+    "display_name": "Version",
+    "can_filter": true,
+    "can_sort": false,
+    "select_only": false,
+    "operators": [
       {
-        "type": 2,
+        "type": 1,
         "can_multiple": false,
         "can_search": false,
-        "display_name": "Greate Than"
-      },
-      {
-        "type": 3,
-        "can_multiple": false,
-        "can_search": false,
-        "display_name": "Greate Than Or Equal"
-      },
-      {
-        "type": 4,
-        "can_multiple": false,
-        "can_search": false,
-        "display_name": "Less Than"
-      },
-      {
-        "type": 5,
-        "can_multiple": false,
-        "can_search": false,
-        "display_name": "Less Than Or Eual"
+        "display_name": "Equal"
       },
       {
         "type": 6,
