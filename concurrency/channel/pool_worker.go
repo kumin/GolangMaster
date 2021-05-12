@@ -8,34 +8,55 @@ import (
 
 var JobRejectError = errors.New("Pool is full")
 
-type Fn func() (interface{}, error)
+type Job struct {
+	ctx      context.Context
+	Callable Runnable
+	Timeout  time.Duration
+	result   chan interface{}
+}
 
 func NewWorkerPool(size int) *WorkerPool {
 	return &WorkerPool{
-		size: size,
-		jobs: make(chan int, size),
+		size:      size,
+		jobs:      make(chan Job, size),
+		cancelFns: make([]context.CancelFunc, 0, size),
 	}
 }
 
 type WorkerPool struct {
-	size int
-	jobs chan int
+	size      int
+	jobs      chan Job
+	cancelFns []context.CancelFunc
 }
 
-func (w *WorkerPool) Submit(ctx context.Context, fn Fn, timeout time.Duration) (chan interface{}, error) {
-	result := make(chan interface{})
-	ctx, _ = context.WithTimeout(ctx, timeout)
-	go w.run(ctx, fn, result)
-	return nil, nil
+func (w *WorkerPool) Submit(ctx context.Context, job Job) (chan interface{}, error) {
+	if len(w.jobs) == w.size {
+		return nil, JobRejectError
+	}
+	job.result = make(chan interface{})
+	ctx, cancel := context.WithTimeout(ctx, job.Timeout)
+	w.cancelFns = append(w.cancelFns, cancel)
+	job.ctx = ctx
+	w.jobs <- job
+	return job.result, nil
 }
 
-func (w *WorkerPool) run(ctx context.Context, fn Fn, result chan<- interface{}) error {
-	v, err := fn()
+func (w *WorkerPool) execute() {
+	for j := range w.jobs {
+		go w.run(j.ctx, j.Callable, j.result)
+	}
+}
+
+func (w *WorkerPool) run(ctx context.Context, fn Runnable, result chan<- interface{}) error {
+	v, err := fn.Run()
 	result <- v
 	return err
 }
 
 func (w *WorkerPool) Close() error {
 	close(w.jobs)
+	for _, fn := range w.cancelFns {
+		fn()
+	}
 	return nil
 }
