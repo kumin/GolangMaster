@@ -27,7 +27,7 @@ func ConsoleHandler(content interface{}) (interface{}, error) {
 	return "", nil
 }
 
-func main() {
+func main1() {
 	ctx := context.Background()
 	chanMap := make(map[int]chan interface{})
 	workerPool := NewWorkerPool(9)
