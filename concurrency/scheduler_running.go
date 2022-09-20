@@ -7,7 +7,7 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/my-packages/concurrency/scheduler"
+	"github.com/kumin/GolangMaster/concurrency/scheduler"
 )
 
 var _ scheduler.Runner = &ExpCacheUpdater{}

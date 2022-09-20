@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/my-packages/helloworld/mypackage_test"
+	"github.com/kumin/GolangMaster/helloworld/mypackage_test"
 )
 
 func main() {

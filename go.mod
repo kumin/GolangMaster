@@ -1,4 +1,4 @@
-module github.com/my-packages
+module github.com/kumin/GolangMaster
 
 go 1.15
 

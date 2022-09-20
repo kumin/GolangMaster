@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/my-packages/database/mysql"
+	"github.com/kumin/GolangMaster/database/mysql"
 )
 
 func InitSectionFields(ctx context.Context) {
