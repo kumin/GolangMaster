@@ -2,61 +2,65 @@ package services
 
 import (
 	"context"
+	"encoding/json"
+	"io"
+	"net/http"
+	"strconv"
 
 	"github.com/kumin/GolangMaster/restful/entities"
+	"github.com/kumin/GolangMaster/restful/repos"
+	"github.com/kumin/GolangMaster/restful/repos/mysql"
 )
 
-var prods = []*entities.Product{
-	{
-		ID:   123456,
-		Name: "Iphone 13",
-		Properties: &entities.Properties{
-			Price:    30000000.04,
-			Category: "Smart Phone",
-		},
-	},
-	{
-		ID:   123458,
-		Name: "Tivi Sony",
-		Properties: &entities.Properties{
-			Price:    15000000.04,
-			Category: "Tivi",
-		},
-	},
-	{
-		ID:   123457,
-		Name: "Tu Lanh Panasonic",
-		Properties: &entities.Properties{
-			Price:    20000000.08,
-			Category: "Tu Lanh",
-		},
-	},
+type ProductCtlServices struct {
+	repo repos.ProductRepo
 }
 
-type ProductCtlService struct {
+func NewProductCtlServices(
+	repo *mysql.ProductMysqlRepo,
+) *ProductCtlServices {
+	return &ProductCtlServices{
+		repo: repo,
+	}
 }
 
-func NewProductCtlHandler() *ProductCtlService {
-	return &ProductCtlService{}
-}
-
-func (p *ProductCtlService) ListProducts(
+func (p *ProductCtlServices) AddProduct(
 	ctx context.Context,
-	page int,
-	limit int) (
-	[]*entities.Product, error) {
-	return prods, nil
-}
-
-func (p *ProductCtlService) GetProduct(
-	ctx context.Context,
-	id int64,
+	req *http.Request,
 ) (*entities.Product, error) {
-	for _, p := range prods {
-		if p.ID == id {
-			return p, nil
-		}
+	defer req.Body.Close()
+	body, err := io.ReadAll(req.Body)
+	if err != nil {
+		return nil, err
+	}
+	var prod *entities.Product
+	if err := json.Unmarshal(body, &prod); err != nil {
+		return nil, err
 	}
 
-	return nil, nil
+	return p.repo.AddProduct(ctx, prod)
+}
+
+func (p *ProductCtlServices) GetProduct(
+	ctx context.Context,
+	req *http.Request,
+) (*entities.Product, error) {
+	id, err := strconv.ParseInt(req.URL.Query().Get("id"), 10, 64)
+	if err != nil {
+		return nil, entities.ParamInvalid
+	}
+	return p.repo.GetProduct(ctx, id)
+}
+
+func (p *ProductCtlServices) ListProducts(
+	ctx context.Context,
+	req *http.Request,
+) ([]*entities.Product, error) {
+	page, err1 := strconv.Atoi(req.URL.Query().Get("page"))
+	limit, err2 := strconv.Atoi(req.URL.Query().Get("limit"))
+	if err1 != nil || err2 != nil {
+		return nil, entities.ParamInvalid
+	}
+
+	return p.repo.ListProducts(ctx, page, limit)
 }

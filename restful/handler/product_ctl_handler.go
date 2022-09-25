@@ -2,22 +2,31 @@ package handler
 
 import (
 	"net/http"
-	"strconv"
 
 	"github.com/kumin/GolangMaster/restful/entities"
 	"github.com/kumin/GolangMaster/restful/services"
 )
 
 type ProductCtlHandler struct {
-	ctlService *services.ProductCtlService
+	ctlService *services.ProductCtlServices
 }
 
 func NewProductCtlHandler(
-	ctlService *services.ProductCtlService,
+	ctlService *services.ProductCtlServices,
 ) *ProductCtlHandler {
 	return &ProductCtlHandler{
 		ctlService: ctlService,
 	}
+}
+
+func (p *ProductCtlHandler) AddProduct(
+	req *http.Request,
+) (interface{}, error) {
+	if req.Method != http.MethodPost {
+		return nil, entities.MethodNotAllowErr
+	}
+
+	return p.ctlService.AddProduct(req.Context(), req)
 }
 
 func (p *ProductCtlHandler) ListProducts(
@@ -26,12 +35,8 @@ func (p *ProductCtlHandler) ListProducts(
 	if req.Method != http.MethodGet {
 		return nil, entities.MethodNotAllowErr
 	}
-	page, err1 := strconv.Atoi(req.URL.Query().Get("page"))
-	limit, err2 := strconv.Atoi(req.URL.Query().Get("limit"))
-	if err1 != nil || err2 != nil {
-		return nil, entities.ParamInvalid
-	}
-	return p.ctlService.ListProducts(req.Context(), page, limit)
+
+	return p.ctlService.ListProducts(req.Context(), req)
 }
 
 func (p *ProductCtlHandler) GetProduct(
@@ -39,11 +44,7 @@ func (p *ProductCtlHandler) GetProduct(
 ) (interface{}, error) {
 	switch req.Method {
 	case http.MethodGet:
-		id, err := strconv.ParseInt(req.URL.Query().Get("id"), 10, 64)
-		if err != nil {
-			return nil, entities.ParamInvalid
-		}
-		return p.ctlService.GetProduct(req.Context(), id)
+		return p.ctlService.GetProduct(req.Context(), req)
 	default:
 		return nil, entities.MethodNotAllowErr
 	}

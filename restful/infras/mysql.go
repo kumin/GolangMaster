@@ -1,38 +1,55 @@
 package infras
 
 import (
+	"log"
 	"time"
 
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
 
 type MysqlConnector struct {
-	db *gorm.DB
+	Client *gorm.DB
 }
 
-func MysqlConntionBuilder(fns ...optionFn) *MysqlConnector {
+func MysqlConnectionBuilder(fns ...optionFn) *MysqlConnector {
 	opt := MysqlDefaultOption
 	for _, f := range fns {
 		f(opt)
 	}
-	return &MysqlConnector{}
+	client, err := gorm.Open(mysql.Open(opt.DSN), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	pool, err := client.DB()
+	if err != nil {
+		log.Fatal(err)
+	}
+	pool.SetMaxOpenConns(opt.MaxConn)
+	pool.SetConnMaxLifetime(opt.MaxLifetime)
+
+	return &MysqlConnector{
+		Client: client,
+	}
 }
 
 func NewMysqlConnector() *MysqlConnector {
 	return MysqlConnectionBuilder(
-		WithDSN("root:root@tcp(localhost:3306)/tiki_anti_fraud_dev?charset=utf8&parseTime=True&loc=Local&multiStatements=true"),
+		WithDSN("root:root@tcp(localhost:3306)/hiennhu?charset=utf8&parseTime=True&loc=Local&multiStatements=true"),
+		WithMaxConn(2),
+		WithLifetime(1*time.Minute),
 	)
 }
 
 type MysqlOption struct {
 	DSN         string
 	MaxConn     int
-	MaxLifeTime time.Duration
+	MaxLifetime time.Duration
 }
 
 var MysqlDefaultOption = &MysqlOption{
 	MaxConn:     2,
-	MaxLifeTime: 1 * time.Minute,
+	MaxLifetime: 1 * time.Minute,
 }
 
 type optionFn func(opt *MysqlOption)
@@ -49,8 +66,8 @@ func WithMaxConn(conns int) optionFn {
 	}
 }
 
-func WithLifeTime(minus time.Duration) optionFn {
+func WithLifetime(minus time.Duration) optionFn {
 	return func(opt *MysqlOption) {
-		opt.MaxLifeTime = minus
+		opt.MaxLifetime = minus
 	}
 }

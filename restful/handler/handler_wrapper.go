@@ -29,6 +29,7 @@ func HandlerWrapper(hf HandlerFn) http.HandlerFunc {
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 		}
+		w.Header().Add("Content-Type", "application/json")
 		w.Write(d)
 	}
 }
