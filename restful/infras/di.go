@@ -2,6 +2,6 @@ package infras
 
 import "github.com/google/wire"
 
-var InfaGraph = wire.NewSet(
+var InfaGraphSet = wire.NewSet(
 	NewMysqlConnector,
 )

@@ -1,10 +1,13 @@
-package main
+package apps
 
 import (
 	"context"
 	"fmt"
 	"log"
 	"net/http"
+
+	"github.com/kumin/GolangMaster/restful/configs"
+	"github.com/kumin/GolangMaster/restful/handler"
 )
 
 type HttpServer struct {
@@ -12,11 +15,18 @@ type HttpServer struct {
 	logger *log.Logger
 }
 
-func NewHttpServer(port int) *HttpServer {
-	return &HttpServer{
-		port:   port,
+func NewHttpServer(
+	configs *configs.ServerConfiguration,
+	prodHandler *handler.ProductCtlHandler,
+) *HttpServer {
+	server := &HttpServer{
+		port:   configs.Port,
 		logger: log.Default(),
 	}
+	server.RegisterHandler("/v1/product/add", handler.HandlerWrapper(prodHandler.AddProduct))
+	server.RegisterHandler("/v1/product/listing", handler.HandlerWrapper(prodHandler.ListProducts))
+	server.RegisterHandler("/v1/product", handler.HandlerWrapper(prodHandler.GetProduct))
+	return server
 }
 
 func (h *HttpServer) Start(ctx context.Context) {

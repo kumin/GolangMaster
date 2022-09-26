@@ -49,6 +49,7 @@ func (p *ProductCtlServices) GetProduct(
 	if err != nil {
 		return nil, entities.ParamInvalid
 	}
+
 	return p.repo.GetProduct(ctx, id)
 }
 
