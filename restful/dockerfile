@@ -1,11 +1,13 @@
-FROM docker.io/golang:1.18-buster
+FROM docker.io/golang:1.18-buster AS compiler
 
 WORKDIR /src
 
-COPY go.mod go.sum ./
+COPY . /src/build
 
-RUN go mod download
+RUN cd /src/build && go mod download && make DES=$(pwd)/out build
 
-RUN make build
+FROM alpine:3.14.2
 
-CMD ["./out/server-ctl"]
+COPY --from=compiler src/build/out/* /bin/
+ 
+CMD ["./bin/server-ctl"]
