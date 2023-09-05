@@ -29,11 +29,11 @@ func (m *MetricServer) Start(ctx context.Context) error {
 	}
 	http.Handle("/metric", promhttp.Handler())
 	errCh := make(chan error, 1)
-	defer close(errCh)
 	go func() {
 		if err := serv.ListenAndServe(); err != nil {
 			errCh <- err
 		}
+		close(errCh)
 	}()
 	for {
 		select {

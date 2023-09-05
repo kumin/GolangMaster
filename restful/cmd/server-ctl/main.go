@@ -17,7 +17,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	_, err = apps.BuildMetricServer()
+	metricServer, err := apps.BuildMetricServer()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -25,7 +25,10 @@ func main() {
 	eg.Go(func() error {
 		return server.Start(ctx)
 	})
-	if eg.Wait() != nil {
+	eg.Go(func() error {
+		return metricServer.Start(ctx)
+	})
+	if err := eg.Wait(); err != nil {
 		panic(err)
 	}
 }

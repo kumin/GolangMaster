@@ -28,14 +28,14 @@ func NewHttpServer(
 }
 
 func (h *HttpServer) Start(ctx context.Context) error {
-	log.Info().Msgf("start metric server on port: %d", h.port)
+	log.Info().Msgf("start HTTP server on port: %d", h.port)
 	serv := &http.Server{Addr: fmt.Sprintf(":%d", h.port)}
 	errCh := make(chan error, 1)
-	defer close(errCh)
 	go func() {
 		if err := serv.ListenAndServe(); err != nil {
 			errCh <- err
 		}
+		close(errCh)
 	}()
 	for {
 		select {

@@ -6,10 +6,13 @@ import (
 	"io"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/kumin/GolangMaster/restful/entities"
+	"github.com/kumin/GolangMaster/restful/monitor"
 	"github.com/kumin/GolangMaster/restful/repos"
 	"github.com/kumin/GolangMaster/restful/repos/mysql"
+	"github.com/rs/zerolog/log"
 )
 
 type ProductCtlServices struct {
@@ -57,6 +60,13 @@ func (p *ProductCtlServices) ListProducts(
 	ctx context.Context,
 	req *http.Request,
 ) ([]*entities.Product, error) {
+	startTime := time.Now()
+	monitor.RequestCounter.Inc()
+	defer func() {
+		latency := float64(time.Now().UnixMicro() - startTime.UnixMicro())
+		log.Info().Msgf("micro second latency:%f", latency)
+		monitor.LatencyHistogram.WithLabelValues("get", "listing").Observe(latency)
+	}()
 	page, err1 := strconv.Atoi(req.URL.Query().Get("page"))
 	limit, err2 := strconv.Atoi(req.URL.Query().Get("limit"))
 	if err1 != nil || err2 != nil {
