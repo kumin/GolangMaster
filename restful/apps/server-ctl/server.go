@@ -3,16 +3,15 @@ package apps
 import (
 	"context"
 	"fmt"
-	"log"
 	"net/http"
 
 	"github.com/kumin/GolangMaster/restful/configs"
 	"github.com/kumin/GolangMaster/restful/handler"
+	"github.com/rs/zerolog/log"
 )
 
 type HttpServer struct {
-	port   int
-	logger *log.Logger
+	port int
 }
 
 func NewHttpServer(
@@ -20,8 +19,7 @@ func NewHttpServer(
 	prodHandler *handler.ProductCtlHandler,
 ) *HttpServer {
 	server := &HttpServer{
-		port:   configs.Port,
-		logger: log.Default(),
+		port: configs.APIPort,
 	}
 	server.RegisterHandler("/v1/product/add", handler.HandlerWrapper(prodHandler.AddProduct))
 	server.RegisterHandler("/v1/product/listing", handler.HandlerWrapper(prodHandler.ListProducts))
@@ -29,9 +27,24 @@ func NewHttpServer(
 	return server
 }
 
-func (h *HttpServer) Start(ctx context.Context) {
-	h.logger.Printf("Server is listening on port:%d", h.port)
-	http.ListenAndServe(fmt.Sprintf(":%d", h.port), nil)
+func (h *HttpServer) Start(ctx context.Context) error {
+	log.Info().Msgf("start metric server on port: %d", h.port)
+	serv := &http.Server{Addr: fmt.Sprintf(":%d", h.port)}
+	errCh := make(chan error, 1)
+	defer close(errCh)
+	go func() {
+		if err := serv.ListenAndServe(); err != nil {
+			errCh <- err
+		}
+	}()
+	for {
+		select {
+		case <-ctx.Done():
+			return serv.Shutdown(ctx)
+		case err := <-errCh:
+			return err
+		}
+	}
 }
 
 func (h *HttpServer) RegisterHandler(path string, handler http.HandlerFunc) {

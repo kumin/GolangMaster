@@ -11,6 +11,7 @@ import (
 	"github.com/kumin/GolangMaster/restful/configs"
 	"github.com/kumin/GolangMaster/restful/handler"
 	"github.com/kumin/GolangMaster/restful/infras"
+	"github.com/kumin/GolangMaster/restful/monitor"
 	"github.com/kumin/GolangMaster/restful/repos/mysql"
 	"github.com/kumin/GolangMaster/restful/repos/provider"
 	"github.com/kumin/GolangMaster/restful/services"
@@ -28,6 +29,12 @@ func BuildServer() (*HttpServer, error) {
 	return httpServer, nil
 }
 
+func BuildMetricServer() (*monitor.MetricServer, error) {
+	serverConfiguration := configs.NewServerConfiguration()
+	metricServer := monitor.NewMetricServer(serverConfiguration)
+	return metricServer, nil
+}
+
 // wire.go:
 
-var SuperGraphSet = wire.NewSet(provider.MysqlGraphSet, services.ServiceGraphSet, handler.HandlerGraphSet, ServerGraphSet)
+var SuperGraphSet = wire.NewSet(provider.MysqlGraphSet, services.ServiceGraphSet, handler.HandlerGraphSet, monitor.MonitorGraphSet, ServerGraphSet)

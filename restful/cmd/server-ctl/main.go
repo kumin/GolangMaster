@@ -4,10 +4,10 @@ import (
 	"context"
 	"log"
 	"os/signal"
-	"sync"
 	"syscall"
 
 	apps "github.com/kumin/GolangMaster/restful/apps/server-ctl"
+	"golang.org/x/sync/errgroup"
 )
 
 func main() {
@@ -17,18 +17,15 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	ctx, cancel := context.WithCancel(ctx)
-	var wg sync.WaitGroup
-	wg.Add(1)
-	go func(ctx context.Context) {
-		go server.Start(ctx)
-		select {
-		case <-ctx.Done():
-			cancel()
-		}
-		defer func() {
-			wg.Done()
-		}()
-	}(ctx)
-	wg.Wait()
+	_, err = apps.BuildMetricServer()
+	if err != nil {
+		log.Fatal(err)
+	}
+	eg, ctx := errgroup.WithContext(ctx)
+	eg.Go(func() error {
+		return server.Start(ctx)
+	})
+	if eg.Wait() != nil {
+		panic(err)
+	}
 }

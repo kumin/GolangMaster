@@ -1,11 +1,13 @@
 package configs
 
 type ServerConfiguration struct {
-	Port int
+	APIPort    int
+	MetricPort int
 }
 
 func NewServerConfiguration() *ServerConfiguration {
 	return &ServerConfiguration{
-		Port: 8080,
+		APIPort:    8180,
+		MetricPort: 9090,
 	}
 }
